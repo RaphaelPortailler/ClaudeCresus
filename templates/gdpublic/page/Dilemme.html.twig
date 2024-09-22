@@ -1,0 +1,130 @@
+{% extends 'gdPublic/partial/gpBase.html.twig' %}
+
+{% block metatitle %}
+    - Dilemme
+{% endblock %}
+
+{% block main %}
+
+    <section class="dilemme">
+        <div class="title-container">
+            <ul class="title-list">
+                <li class="title-icon"><img src="{{ asset('img/dilemmeGrand.png') }}" alt="logo jeu dilemme" class="title-img" /></li>
+                <li><h2>L’importance de l’éducation budgétaire</h2></li>
+                <li class="title-icon"><img src="{{ asset('img/images.png') }}" alt="agréé ministère education nationale" class="title-img" /></li>
+            </ul>
+        </div>
+        <article>
+            <div class="content">
+                <p>Avec la conviction que la prévention est une clé essentielle pour éviter l’exclusion financière, le programme Dilemme permet avant tout de changer la relation à l’argent, de former des citoyens responsables ainsi que des consommateurs qui auront les outils et connaissances nécessaires pour gagner en autonomie.</p>
+                <br>
+                <p>Des méthodes innovantes d’éducation financière construites autour d’outils ludiques (jeu de plateau grand format), Dilemme propose une initiation d’apprentissage basée sur des allers-retours constants entre expérimentation et théorie.</p>
+
+                <div class="features">
+                    <div class="feature">
+                        <div class="image-container">
+                            <img src="{{ asset('img/jeu-de-plateau.png') }}" alt="jeu Dilemme - ludique" />
+                        </div>
+                        <h3>LUDIQUE</h3>
+                        <p>Grâce à des outils ludiques, favoriser et libérer le dialogue autour de l’argent.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="image-container">
+                            <img src="{{ asset('img/casquette-de-graduation.png') }}" alt="jeu Dilemme - éducatif" />
+                        </div>
+                        <h3>ÉDUCATIF</h3>
+                        <p>Aborder les problématiques de la gestion d’un budget par la pratique en organisant vos sessions de jeu.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="image-container">
+                            <img src="{{ asset('img/groupe.png') }}" alt="jeu Dilemme - participatif" />
+                        </div>
+                        <h3>PARTICIPATIF</h3>
+                        <p>Permettre l’acquisition des savoirs essentiels concernant les produits bancaires et assurantiels.</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="second-article">
+            <h2> Déroulement des ateliers </h2>
+            <div class="content">
+                <p>Le cadre ludique et convivial de nos ateliers facilite la transmission de notions essentielles permettant aux bénéficiaires d'être acteurs de leurs finances, et d'effectuer des choix éclairés. Cela favorise également le partage d'expérience et la libération de la paole autour du tabou de l'argent.</p>
+                <br>
+                <p> Déployé auprès de structures allant du champ social aux centres de formation en passant par le milieu associatif et les entreprises, notre programme pédagogique Dilemme se donne pour objecifs de :</p>
+                <div class="features">
+                    <div class="feature">
+                        <div class="image-container">
+                            <img src="{{ asset('img/boite-de-discussion.png') }}" alt="jeu Dilemme -dialogue" />
+                        </div>
+                        <p>Favoriser le dialogue autour de l'argent et ptomouvoir une consommation éclairée et responsable.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="image-container">
+                            <img src="{{ asset('img/soutien.png') }}" alt="jeu Dilemme -outils et connaissances" />
+                        </div>
+                        <p>Former des citoyens responsables ayant les outils et connaissances pour aggner en automonie.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="image-container">
+                            <img src="{{ asset('img/gestion-du-temps.png') }}" alt="jeu Dilemme - gestion du budget" />
+                        </div>
+                        <p>Aborder les problématiques de la gestion d'un budget par la pratique et transmettre des savoirs de base concernant les produits bancaires et assurantiels.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="image-container">
+                            <img src="{{ asset('img/banque.png') }}" alt="jeu Dilemme - banque et crédits" />
+                        </div>
+                        <p>Informer sur les droits et devoirs de chacun concernant le monde de la banque, du crédit et de l'assurance.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="image-container">
+                            <img src="{{ asset('img/printemps.png') }}" alt="jeu Dilemme - spirale surendettement" />
+                        </div>
+                        <p>Eviter la spirale du surendettement et prévenir des risques lliés aux jeux d'argent.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="image-container">
+                            <img src="{{ asset('img/solution.png') }}" alt="jeu Dilemme - solutions financières" />
+                        </div>
+                        <p>Proposer des alternatives et des solutions en cas de difficultés financières.</p>
+                    </div>
+                </div >
+            </div >
+        </article>
+        <article class="troisieme-article">
+            <h2> Nos ateliers </h2>
+            <div class="ateliers-content">
+                <div class="ateliers-description">
+                    <p> Dilemme est basé sur un jeu de plateau dans lequel chaque tour représente un mois.</p>
+                    <br>
+                    <p> Les joueurs, regroupés en équipes de 2 à 4, doivent collectivement </p>
+                    <p> s’acquitter d’un ensemble de charges prédéfinies, </p>
+                    <p> économiser pour réaliser un projet choisi en début de partie</p>
+                    <p> tout en collectant des points plaisir correspondants à des loisirs et à des activités culturelles.</p>
+                </div>
+                <div class="ateliers-details">
+                    <div class="detail">
+                        <img src="{{ asset('img/travail-en-equipe.png') }}" alt="Dilemme - participants" />
+                        <p>De 6 à 12 joueurs</p>
+                    </div>
+                    <div class="detail">
+                        <img src="{{ asset('img/sablier.png') }}" alt="Dilemme - durée" />
+                        <p>Ateliers de 2h00 à 2h30 en présentiel</p>
+                    </div>
+                    <div class="detail">
+                        <img src="{{ asset('img/appeler.png') }}" alt="Dilemme - contact par téléphone" />
+                        <p>Pour plus d'informations, vous pouvez nous contacter au 06 xx xx xx xx </p>
+                    </div>
+                    <div class="detail">
+                        <img src="{{ asset('img/email.png') }}" alt="Dilemme - contact par mail" />
+                        <p>ou envoyer un e-mail à  xxxxxxx@cresusgironde.fr</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+
+
+
+{% endblock %}

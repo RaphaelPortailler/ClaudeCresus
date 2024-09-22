@@ -1,0 +1,129 @@
+{# templates/beneficiaire/RechercheBeneficiaire.html.twig #}
+
+{% extends 'interne/partial/intBase.html.twig' %}
+
+{% block metatitle %}
+    - recherche beneficiaire
+{% endblock %}
+
+
+{% block main %}
+    <section class="recherche">
+
+        <h1 class="text-success">Recherche de Bénéficiaires</h1>
+
+        {{ form_start(form) }}
+        <div class="form-container">
+            <div class="form-group">
+                {{ form_label(form.nom) }}
+                {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.nom) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.prenom) }}
+                {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.prenom) }}
+            </div>
+
+            <div class="form-group">
+                Téléphone - saisir le numéro sans espace
+                {{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.telephone) }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form_widget(form.rechercher, {'attr': {'class': 'btn btn-primary'}}) }}
+        </div>
+        {{ form_end(form) }}
+    </section>
+
+    {% if form_submitted %}
+        <div class="addben">
+            <a href="{{ path('insertBeneficiaire')}}"><i class="fa-solid fa-user-plus tailleiAddBen" > <span>Ajouter un bénéficiaire</span></i></a>
+        </div>
+    {% endif %}
+
+    {% if beneficiaires is not empty %}
+        <h2>Résultats de la Recherche</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'sort': 'nom', 'order': sortField == 'nom' and sortOrder == 'asc' ? 'desc' : 'asc'})) }}">
+                        Nom
+                        {% if sortField == 'nom' %}
+                            <i class="fa fa-sort-{{ sortOrder == 'asc' ? 'up' : 'down' }}"></i>
+                        {% else %}
+                            <i class="fa fa-sort"></i>
+                        {% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'sort': 'prenom', 'order': sortField == 'prenom' and sortOrder == 'asc' ? 'desc' : 'asc'})) }}">
+                        Prénom
+                        {% if sortField == 'prenom' %}
+                            <i class="fa fa-sort-{{ sortOrder == 'asc' ? 'up' : 'down' }}"></i>
+                        {% else %}
+                            <i class="fa fa-sort"></i>
+                        {% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'sort': 'telephone', 'order': sortField == 'telephone' and sortOrder == 'asc' ? 'desc' : 'asc'})) }}">
+                        Téléphone
+                        {% if sortField == 'telephone' %}
+                            <i class="fa fa-sort-{{ sortOrder == 'asc' ? 'up' : 'down' }}"></i>
+                        {% else %}
+                            <i class="fa fa-sort"></i>
+                        {% endif %}
+                    </a>
+                </th>
+                <th>Email</th>
+                <th>Demandes de la personne</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for beneficiaire in beneficiaires %}
+                <tr>
+                    <td>{{ beneficiaire.nomBeneficiaire }}</td>
+                    <td>{{ beneficiaire.prenomBeneficiaire }}</td>
+                    <td>
+                        {% set formatted_phone = beneficiaire.telephoneBeneficiaire|slice(0, 2) ~ ' ' ~ beneficiaire.telephoneBeneficiaire|slice(2, 2) ~ ' ' ~ beneficiaire.telephoneBeneficiaire|slice(4, 2) ~ ' ' ~ beneficiaire.telephoneBeneficiaire|slice(6, 2) ~ ' ' ~ beneficiaire.telephoneBeneficiaire|slice(8, 2) %}
+                        {{ formatted_phone }}
+                    </td>
+                    <td>{{ beneficiaire.mailBeneficiaire }}</td>
+                    <td>
+                        <ul>
+                            {% for demande in beneficiaire.demandes %}
+                                <li>
+                                    <a href="{{ path('affichageDemande', {'id': demande.id}) }}" class="btn btn-link">
+                                        <i class="fa fa-eye fa-lg" style="color: #164681;"></i>
+                                    </a>
+                                    {{ demande.id }} -
+                                    {{ demande.createdAt|date('d/m/Y') }} -
+                                    {{ demande.typeDemande.libelleDemande }} -
+                                    {{ demande.positionDemande.libellePosition }}
+                                </li>
+                            {% else %}
+                                <li>Aucune demande associée</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <a href="{{ path('insertDemande', {'id': beneficiaire.id}) }}" class="btn btn-success">
+                            <i class="fa fa-plus-circle"></i> Demande
+                        </a>
+                        <a href="{{ path('updatebeneficiaire', {'id': beneficiaire.id}) }}" class="btn btn-over">
+                            <i class="fa-solid fa-file-pen fa-lg" style="color: #0d6efd;"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucun bénéficiaire trouvé.</p>
+    {% endif %}
+{% endblock %}

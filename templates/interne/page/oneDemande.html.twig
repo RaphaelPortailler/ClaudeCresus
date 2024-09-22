@@ -1,0 +1,190 @@
+{# templates/beneficiaire/insertDemande.html.twig #}
+
+{% extends 'interne/partial/intBase.html.twig' %}
+
+{% block metatitle %}
+    - insert demande
+{% endblock %}
+
+
+{% block main %}
+
+    <section class="onedemande">
+        <h1>Demande N°{{ demande.id }}: <span>{{ demande.typeDemande.libelleDemande }} - {{ demande.positionDemande.libellePosition }}</span></h1>
+        <h5>Origine et date de la demande: {{ demande.origine.libelleOrigine }}  {{ demande.complementOrigine }} - {{ demande.createdAt|date('d/m/Y') }}</h5>
+        <h3>
+            {% if demande.beneficiaires|length == 1 %}
+                Bénéficiaire
+                <a href="{{ path('addbeneficiarydemande', {demandeId: demande.id}) }}" class="btn btn-success">+</a>
+            {% elseif demande.beneficiaires|length == 2 %}
+                Bénéficiaires
+            {% endif %}
+        </h3>
+        <div class="affichage-groupe">
+            {% if demande.beneficiaires|length == 1 %}
+                {% for beneficiaire in demande.beneficiaires %}
+                    <div class="affichage-detail">
+                        <p> <span>{{ beneficiaire.civiliteBeneficiaire }} {{ beneficiaire.nomBeneficiaire }} {{ beneficiaire.prenomBeneficiaire }},</span>
+                            né(e) le
+                            {% if beneficiaire.ddnBeneficiaire %}
+                                {{ beneficiaire.ddnBeneficiaire|date('d/m/Y') }}
+                            {% else %}
+                                Non renseigné
+                            {% endif %}
+                            <a href="{{ path('updatebeneficiaire', {'id': beneficiaire.id, 'redirect': app.request.uri}) }}" class="btn-over">
+                                <i class="fa-solid fa-file-pen fa-lg" style="color:#2a7cf6"></i>
+                            </a>
+                        </p>
+                        <p> mail : <span>{{ beneficiaire.mailBeneficiaire }}</span>
+                            - tél : <span>
+                        {% set formatted_phone = beneficiaire.telephoneBeneficiaire|slice(0, 2) ~ ' ' ~ beneficiaire.telephoneBeneficiaire|slice(2, 2) ~ ' ' ~ beneficiaire.telephoneBeneficiaire|slice(4, 2) ~ ' ' ~ beneficiaire.telephoneBeneficiaire|slice(6, 2) ~ ' ' ~ beneficiaire.telephoneBeneficiaire|slice(8, 2) %}
+                                {{ formatted_phone }}
+                    </span> </p>
+                        <p>   {{  beneficiaire.libelleProf.libelleProf }} - profession : {{ beneficiaire.professionBeneficiaire }}  </p>
+                    </div>
+                {% endfor %}
+            {% elseif demande.beneficiaires|length == 2 %}
+                {% for beneficiaire in demande.beneficiaires %}
+                    <div class="affichage-detail">
+                        <div class="affich2benef">
+                            <div class="jsDeleteButton btn-remove-beneficiaire">
+                                <i class="fa fa-minus-circle fa-xl" style="color: #d00b0b;"></i>
+                            </div>
+                            <div class="overlay">
+                                <div class="jsDelete">
+                                    <h4>Voulez vous vraiment supprimer le bénéficiaire de la demande ?</h4>
+                                    <div class="flexButton">
+                                        <p><a href="{{ path('removeBeneficiaireFromDemande',{demandeId: demande.id, beneficiaireId: beneficiaire.id})}}">Supprimer</a></p>
+                                        <p><a href="{{ path('affichageDemande', {id: demande.id}) }}">Annuler</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>
+                                <span class="retrait">{{ beneficiaire.civiliteBeneficiaire }} {{ beneficiaire.nomBeneficiaire }} {{ beneficiaire.prenomBeneficiaire }},</span>
+                                né(e) le
+                                {% if beneficiaire.ddnBeneficiaire %}
+                                    {{ beneficiaire.ddnBeneficiaire|date('d/m/Y') }}
+                                {% else %}
+                                    Non renseigné
+                                {% endif %}
+                                <a href="{{ path('updatebeneficiaire', {'id': beneficiaire.id, 'redirect': app.request.uri}) }}" class="btn-over">
+                                    <i class="fa-solid fa-file-pen fa-lg" style="color:#2a7cf6"></i>
+                                </a>
+                            </p>
+                        </div>
+
+                        <p> mail : <span>{{ beneficiaire.mailBeneficiaire }}</span>
+                            - tél : <span>{% set formatted_phone = beneficiaire.telephoneBeneficiaire|slice(0, 2) ~ ' ' ~ beneficiaire.telephoneBeneficiaire|slice(2, 2) ~ ' ' ~ beneficiaire.telephoneBeneficiaire|slice(4, 2) ~ ' ' ~ beneficiaire.telephoneBeneficiaire|slice(6, 2) ~ ' ' ~ beneficiaire.telephoneBeneficiaire|slice(8, 2) %}
+                                {{ formatted_phone }} </span> </p>
+                        <p>{{ beneficiaire.libelleProf.libelleProf }} - profession : {{ beneficiaire.professionBeneficiaire }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="affichage-groupe fondbleu">
+            <div class="affichage-detail titre specdemande">
+                <h3> Données de la demande
+                    <a href="{{ path('modif_demande', {id: demande.id}) }}" class="btn-over">
+                        <i class="fa-solid fa-file-pen fa-sm" style="color:#2a7cf6"></i>
+                    </a>
+                </h3>
+                <p>Cause : {{ demande.causeBesoin }}</p>
+            </div>
+            <div class="affichage-detail specdemande">
+                <p><span>Adresse</span></p>
+                <p>{{ demande.adresse1Demande }}</p>
+                <p>{{ demande.adresse2Demande }}</p>
+                <p>{{ demande.cpDemande }} {{ demande.villeDemande }}</p>
+
+            </div>
+            <div class="affichage-detail specdemande">
+                <p>enfants à charge : {{ demande.nbEnfant }}</p>
+                <p>enfants en garde alternée : {{ demande.gardeAlternee }}</p>
+                <p>enfants avec droit de visite : {{ demande.droitVisite }}</p>
+                <br>
+                <p>Logement : {{ demande.situationLogt }} -    patrimoine :{{ demande.patrimoine }}</p>
+            </div>
+            <div class="affichage-detail specdemande1 fin">
+                <h6>
+                    Revenus
+                    <a href="{{ path('insertRevenu', {id: demande.id}) }}" class="ajout btn btn-success"> <i class="fa-solid fa-plus circle" style="color: white;"></i></a>
+                </h6>
+                {% for revenu in demande.revenus %}
+                    <p><strong>{{ revenu.typeRevenu.libelleRevenu }}</strong> - {{ revenu.commentaires }} :
+                        {{ revenu.montantMensuel|number_format(0, ',', ' ') }}
+                        <a href="{{ path('modif_revenu', {id: revenu.id}) }}" class="btn-over">
+                            <i class="fa-solid fa-file-pen fa-sm" style="color:#2a7cf6"></i>
+                        </a>
+                    </p>
+                {% endfor %}
+                <p><strong>Total des revenus :</strong> {{ sommeRevenus|number_format(0, ',', ' ') }} €</p>
+            </div>
+            <div class="affichage-detail specdemande1 fin">
+                <h6>
+                    Charges
+                    <a href="{{ path('insertCharge', {id: demande.id}) }}" class="ajout btn btn-success"> <i class="fa-solid fa-plus circle" style="color: white;"></i></a>
+                </h6>
+                {% for charge in demande.charges %}
+                    <p><strong>{{ charge.typeCharge.libelleCharge }}</strong> - {{ charge.commentaires }} :
+                        {{ charge.montantMensuel|number_format(0, ',', ' ') }}
+                        <a href="{{ path('modif_charge', {id: charge.id}) }}" class="btn-over">
+                            <i class="fa-solid fa-file-pen fa-sm" style="color:#2a7cf6"></i>
+                        </a>
+                    </p>
+                {% endfor %}
+                <p><strong>Total des charges :</strong> {{ sommeCharges|number_format(0, ',', ' ') }} €</p>
+            </div>
+            <div class="affichage-detail specdemande2 fin">
+                <h6>
+                    Dettes et crédits
+                    <a href="{{ path('insertDette', {id: demande.id}) }}" class="ajout btn btn-success"> <i class="fa-solid fa-plus circle" style="color: white;"></i></a>
+                </h6>
+                {% for dette in demande.dettes %}
+                    <p>{{ dette.typeDette.libelledette }} -
+                        <span> {{ dette.organisme }} </span> -
+                        {{ dette.commentaires }} -
+                        mensualité : {{ dette.mensualite|number_format(0, ',', ' ') }} -
+                        montant du : {{ dette.montantDu|number_format(0, ',', ' ') }}
+                        <a href="{{ path('modif_dette', {id: dette.id}) }}" class="btn-over">
+                            <i class="fa-solid fa-file-pen fa-sm" style="color:#2a7cf6"></i>
+                        </a>
+                    </p>
+                {% endfor %}
+                <p><strong>Total des mensualités :</strong> {{ sommeMens|number_format(0, ',', ' ') }} € - <strong>Total dû :</strong> {{ sommeDettes|number_format(0, ',', ' ') }} € </p>
+            </div>
+        </div>
+        <div class="affichage-groupe fondbleu">
+            <div>
+                <form action="{{ path('MAJcommentaires', {id: demande.id}) }}" method="post">
+                    <textarea class="affichage-detail commentaires " name="commentaires" rows="5" cols="50" >{{ demande.commentaires }}</textarea>
+                    <button class="btn btn-primary" type="submit">Enregistrer les commentaires</button>
+                </form>
+            </div>
+            <div class="affichage-detailbis specdemande">
+                <div class="affichage-fin">
+                    <h6>
+                        Evolution du dossier
+                        <a href="{{ path('insert_evoldoss', {id: demande.id}) }}" class="ajout btn btn-success"> <i class="fa-solid fa-plus circle" style="color: white;"></i></a>
+                    </h6>
+                    {% for avancement in demande.historiqueAvcts %}
+                        <p> <span> {{ avancement.createdAt|date('d/m/Y') }} </span> - {{ avancement.avancement.libelleAvancement }} - {{ avancement.commentairesAvct }}</p>
+                    {% endfor %}
+                </div>
+                <div  class="affichage-fin">
+                    <h6>
+                        Historique des RDV
+                        <a href="{{ path('insertRevenu', {id: demande.id}) }}" class="ajout btn btn-success"> <i class="fa-solid fa-plus circle" style="color: white;"></i></a>
+                    </h6>
+                    {% for rdv in demande.RendezVous %}
+                        <p> <span> {{ rdv.dateAt|date('d/m/Y') }} - {{ rdv.heureAt|date('H:i') }}</span> - {{ rdv.Site.nomSite }} </p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('JS/buttonpopup.js') }}"></script>
+{% endblock %}
